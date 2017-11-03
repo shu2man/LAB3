@@ -18,9 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListViewActivity"
-                   android:exported="true"/>
+            android:noHistory="true"
+            android:launchMode="singleTop"
+            android:exported="true"/>
         <activity android:name=".CartActivity"
-                   android:exported="true"/>
+            android:noHistory="true"
+            android:exported="true"/>
         <receiver android:name=".MyBroadcastReceiver">
             <intent-filter>
                 <action android:name="OnLaunchApp" />

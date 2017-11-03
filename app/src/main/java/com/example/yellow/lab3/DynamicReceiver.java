@@ -34,17 +34,17 @@ public class DynamicReceiver extends BroadcastReceiver {
         RemoteViews notiView=new RemoteViews(context.getPackageName(),R.layout.notification_view);
         notiView.setImageViewResource(R.id.notification_icon,R.drawable.peanut2);
         notiView.setTextViewText(R.id.notification_title,"马上下单");
-        notiView.setTextViewText(R.id.notification_text,ds.getLastClick()+"已添加到购物车");
+        notiView.setTextViewText(R.id.notification_text,name+"已添加到购物车");
         notiView.setTextViewText(R.id.notification_time,getTime());
-        notiView.setImageViewResource(R.id.notification_img,ds.getIcon(ds.getName().indexOf(ds.getLastClick())));
+        notiView.setImageViewResource(R.id.notification_img,ds.getIcon(ds.getName().indexOf(name)));
 
         Intent intent=new Intent(context,CartActivity.class);
         PendingIntent ma=PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder mbuilder=new Notification.Builder(context)
-                .setSmallIcon(ds.getIcon(ds.getName().indexOf(ds.getLastClick())))
+                .setSmallIcon(ds.getIcon(ds.getName().indexOf(name)))
                 .setTicker("抢先下单")
                 .setContentTitle("马上下下单")
-                .setContentText(ds.getLastClick()+"已添加到购物车")
+                .setContentText(name+"已添加到购物车")
                 .setContentIntent(ma)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContent(notiView)
@@ -57,7 +57,11 @@ public class DynamicReceiver extends BroadcastReceiver {
 
     public String getTime(){
         Calendar cal=Calendar.getInstance();
-        String time=cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
-        return time;
+        String time="";
+        if(cal.get(Calendar.HOUR_OF_DAY)<10) time="0";
+        time=time+cal.get(Calendar.HOUR_OF_DAY)+":";
+        if(cal.get(Calendar.MINUTE)<10) time=time+"0";
+        time=time+cal.get(Calendar.MINUTE);
+        return time;//返回xx:xx格式的时间
     }
 }

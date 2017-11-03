@@ -40,6 +40,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         mBundle.putString("name",name);
         Intent intent=new Intent(context,ListViewActivity.class);
         intent.putExtras(mBundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent ma=PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         RemoteViews rViews=new RemoteViews(context.getPackageName(),R.layout.notification_view);
         rViews.setImageViewResource(R.id.notification_icon,R.drawable.peanut2);
@@ -61,11 +63,15 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         myManager=(NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         myManager.notify(ds.getNotiid(),notification);//至此才显示出通知
     }
-
     public String getTime(){
         Calendar cal=Calendar.getInstance();
-        String time=cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
+        String time="";
+        if(cal.get(Calendar.HOUR_OF_DAY)<10) time="0";
+        time=time+cal.get(Calendar.HOUR_OF_DAY)+":";
+        if(cal.get(Calendar.MINUTE)<10) time=time+"0";
+        time=time+cal.get(Calendar.MINUTE);
         return time;
     }
+
 }
 

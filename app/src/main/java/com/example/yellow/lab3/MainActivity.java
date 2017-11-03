@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
     public void goToListViewActivity(){
         DataShare ds=((DataShare)getApplicationContext());
         Intent page=new Intent(MainActivity.this,ListViewActivity.class);
+        page.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        page.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        page.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         Bundle mBundle=new Bundle();
         mBundle.putString("name",ds.getLastClick());
         page.putExtras(mBundle);
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Intent broadcastIntent=new Intent();//广播发送的是Intent,先声明
         broadcastIntent.putExtra("package_name",ds.getName().get(recommend));
         broadcastIntent.setAction("OnLaunchApp");//设置标识动作
+        broadcastIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         sendBroadcast(broadcastIntent);//发送广播
         ds.setLastClick(ds.getName().get(recommend));//
     }

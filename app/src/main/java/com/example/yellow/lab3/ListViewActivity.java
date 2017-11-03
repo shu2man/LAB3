@@ -104,16 +104,19 @@ public class ListViewActivity extends Activity {
     }
     public void setFavorite(View view){
         DataShare ds=((DataShare)getApplicationContext());
-        ds.setFavor(ds.getLastClick());
-        ImageButton favbtn=(ImageButton)findViewById(R.id.detail_page_favorite);
-        /*if(!ds.isFavor(ds.getLastClick())) favbtn.setBackgroundResource(R.drawable.empty_star);
+        ds.setFavor(name);
+        /*ImageButton favbtn=(ImageButton)findViewById(R.id.detail_page_favorite);
+        if(!ds.isFavor(ds.getLastClick())) favbtn.setBackgroundResource(R.drawable.empty_star);
         else favbtn.setBackgroundResource(R.drawable.full_star);*///直接设置有bug
         initView();//更新一下界面,ds.getLastClick()
     }
     public void addToCart(View taget){
+        TextView tv=(TextView) findViewById(R.id.detail_page_name);
+        String localname=tv.getText().toString();
+
         DataShare ds=((DataShare)getApplicationContext());
-        ds.addIncart(ds.getLastClick());
-        Toast.makeText(ListViewActivity.this, "商品已添加到购物车", Toast.LENGTH_SHORT).show();
+        ds.addIncart(localname);
+        Toast.makeText(ListViewActivity.this, name+"已添加到购物车", Toast.LENGTH_SHORT).show();
 
         /*
         //以下使用系统默认通知，在各厂商UI下效果不一致
@@ -165,16 +168,10 @@ public class ListViewActivity extends Activity {
 
         //以下通过注册动态广播实现
         Intent broadcastIntent=new Intent();
-        broadcastIntent.putExtra("package_name",ds.getLastClick());
+        broadcastIntent.putExtra("package_name",name);
         broadcastIntent.setAction("DYNAMIC_ACTION");
         sendBroadcast(broadcastIntent);
 
-    }
-
-    public String getTime(){
-        Calendar cal=Calendar.getInstance();
-        String time=cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
-        return time;
     }
 
     public void myUnregister(View view){
